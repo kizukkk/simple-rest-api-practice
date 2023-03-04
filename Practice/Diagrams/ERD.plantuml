@@ -1,0 +1,48 @@
+@startuml entity-relationship
+
+hide circle
+
+skinparam linetype ortho
+
+entity "Dishes" as e01 {
+  id : number         <<generated>>
+  name : text
+  description : text 
+}
+
+entity "Ingredients" as e02 {
+  id : number         <<generated>>
+  name : text        
+  description : text
+}
+
+entity "Users" as e03 {
+  id : number         <<generated>>
+  name : text
+  email : text        <<unique>>
+  password : text     
+}
+
+entity "Dish_Ingredient" as e04 {
+  id : number               <<generated>>
+  dish_id : number          <<FK>>
+  ingredient_id : number    <<FK>>
+}
+
+entity "User_Dish" as e05 {
+  id : number       <<generated>>
+  user_id : number  <<FK>>
+  dish_id : number  <<FK>>
+}
+
+
+
+ e01 ||--o{ e04
+ e02 ||--o{ e04
+
+ e03 ||--o{ e05
+ e01 ||--o{ e05
+
+
+
+@enduml
