@@ -15,10 +15,4 @@ public class ApplicationDbContext : DbContext
     public DbSet<Dish> Dishes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<User> Users { get; set; }
-
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
-
 }
