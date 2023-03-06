@@ -72,6 +72,14 @@ public class UserRepository : IUserRepository
     }
     public async Task<UserViewModel> Create(UserCreateModel newUser)
     {
+
+        var checkEmail =
+            _context.Users.Where(u => u.Email == newUser.Email);
+
+        if (!checkEmail.IsNullOrEmpty())
+            throw new Exception("a user with that email already exists");
+
+
         var userToDB = _mapper.Map<User>(newUser);
 
         _context.Users.Add(userToDB);
@@ -99,7 +107,4 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-
-
- 
 }
