@@ -28,7 +28,7 @@ public class UsersController : ControllerBase
         var user = await _repo.ShowOne(id);
 
         if (user is null)
-            return BadRequest("A user with that id is not exist");
+            return NotFound("A user with that id is not exist");
 
         return Ok(user);
     }
@@ -38,10 +38,19 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserViewModel>> Create(
         [FromBody] UserCreateModel user)
     {
-        var newUser = await _repo.Create(user);
+        UserViewModel? newUser;
+
+        try
+        {
+            newUser = await _repo.Create(user);
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
+        }
 
 
-        return Created("api/users/1", newUser);
+        return Created($"api/users/{newUser.Id}", newUser);
     }
 
     
@@ -98,9 +107,5 @@ public class UsersController : ControllerBase
         }
 
         return NoContent();
-
-
     }
-
-
 }
